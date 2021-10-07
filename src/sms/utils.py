@@ -104,26 +104,6 @@ def print_on_error(message: str, verbose: bool=True) -> None:
     if verbose:
         print(BRIGHT + RED + "[ ERROR ]".ljust(12, ' ') + RESET_ALL + message, file=sys.stderr)
 
-def debug(msg: str, frame: FrameType) -> None:
-    """
-    Helper function for slightly better print debugging. Prints the current line
-    of invocation, a custom `msg` and the source file name as color-formatted string.
-    Set `frame` to `inspect.currentframe()` when you invoke this function.
-    Example
-    -------
-    ```
-    import inspect
-    # some code
-    debug('Validate incoming data stream.', frame=inspect.currentframe())
-    # ...
-    debug('Enter recursive function.', frame=inspect.currentframe())
-    ```
-    Note
-    ----
-    Consider using an IDE with a debugger whenever possible.
-    """
-    print(BRIGHT + YELLOW + '[' + str(frame.f_lineno).zfill(4) + ']' + RESET_ALL + '\t' + msg + " (in '%s').", Path(frame.f_code.co_filename).name)
-
 def clear():
     """
     Reset terminal screen.

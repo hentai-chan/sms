@@ -1,5 +1,5 @@
 # Changelog
 
-## Version 0.0.4
+## Version 0.0.1 (07 Oct 2021)
 
-This is a placeholder file for the project changelog.
+Setup starter code and update meta information.

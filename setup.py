@@ -7,15 +7,12 @@ from setuptools import find_packages, setup
 
 print("reading meta data")
 
-with open("src/clitemplate/__init__.py", encoding='utf-8') as file_handler:
+with open("src/sms/__init__.py", encoding='utf-8') as file_handler:
     lines = file_handler.read()
     version = re.search(r'__version__ = "(.*?)"', lines).group(1)
     package_name = re.search(r'package_name = "(.*?)"', lines).group(1)
     python_major = int(re.search(r'python_major = "(.*?)"', lines).group(1))
     python_minor = int(re.search(r'python_minor = "(.*?)"', lines).group(1))
-
-if package_name == 'clitemplate':
-    print("\033[93mWARNING: You should rename the default package name.\033[0m")
 
 try:
     assert sys.version_info >= (int(python_major), int(python_minor))
@@ -42,15 +39,15 @@ setup(
     author_email="dev.hentai-chan@outlook.com",
     name=package_name,
     version=version,
-    description="A modern CLI template for python scripts.",
+    description="",
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url="https://github.com/Advanced-Systems/cli-template",
+    url="https://github.com/hentai-chan/sms",
     project_urls={
-        'Documentation': "https://github.com/Advanced-Systems/cli-template/blob/master/README.md",
-        'Source Code': "https://github.com/Advanced-Systems/cli-template",
-        'Bug Reports': "https://github.com/Advanced-Systems/cli-template/issues",
-        'Changelog': "https://github.com/Advanced-Systems/cli-template/blob/master/CHANGELOG.md"
+        'Documentation': "https://github.com/hentai-chan/sms/blob/master/README.md",
+        'Source Code': "https://github.com/hentai-chan/sms",
+        'Bug Reports': "https://github.com/hentai-chan/sms/issues",
+        'Changelog': "https://github.com/hentai-chan/sms/blob/master/CHANGELOG.md"
     },
     python_requires=">=%d.%d" % (python_major, python_minor),
     install_requires=packages,
@@ -75,7 +72,7 @@ setup(
         'Topic :: Terminals',
         'Topic :: Utilities',
     ],
-    keywords="utils, terminal, application, template",
+    keywords="utils, terminal, application, sms, twilio",
 )
 
 wheel_name = package_name.replace('-', '_') if '-' in package_name else package_name
