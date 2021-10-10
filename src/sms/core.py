@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 
-import math
+from datetime import datetime as dt
 
-from .utils import logger
+from twilio.rest import Client
 
-def square_function(xmin, xmax) -> map:
-    """
-    Implement the quadratic function f:[xmin,xmax] ⟶ ℝ, x ↦ x²
-    """
-    logger.info('Announcing my loyalty to the king')
-    return map(lambda x: int(math.pow(x, 2)), range(xmin, xmax+1))
+from . import utils
+from .config import BRIGHT, GREEN, RESET_ALL, YELLOW
+
+
+def send_sms(sid: str, token: str, from_: str, to: str, msg: str, debug: bool) -> None:
+    client = Client(sid, token)
+
+    if debug:
+        utils.print_on_warning(f"Debug mode enabled. Sent message {BRIGHT}{GREEN}{msg}{RESET_ALL} to {to}")
+        return
+
+    message = client.messages.create(body=msg, from_=from_, to=to)
+    utils.print_on_success(f"Message sent on {BRIGHT}{YELLOW}{dt.today().strftime('%c')}{RESET_ALL}")
