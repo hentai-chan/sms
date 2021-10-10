@@ -39,7 +39,7 @@ setup(
     author_email="dev.hentai-chan@outlook.com",
     name=package_name,
     version=version,
-    description="",
+    description="Twilio CLI for profesional developers.",
     long_description=long_description,
     long_description_content_type='text/markdown',
     url="https://github.com/hentai-chan/sms",
