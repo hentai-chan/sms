@@ -48,10 +48,14 @@ jobs:
     - name: Configure and Run Application
       run: |
         sms --version
-        sms config --add Mercédès +13191234567
-        sms config --add Haydée +13197654321
-        sms config --home Haydée
+        sms config --sid 123456
+        sms config --token 654321
+        sms config --phone +13193141592
+        sms config --add Mercedes +13191234567
+        sms config --add Haydee +13197654321
+        sms config --home haydee
         sms config --list
-        sms send --receiver Haydée
-        sms send --msg "Hello, World!" --receiver Mercédès --debug
+        sms send --receiver Haydee
+        sms send --msg "Hello, World!" --receiver mercedes --debug
         sms send --late --debug
+        sms log --list
