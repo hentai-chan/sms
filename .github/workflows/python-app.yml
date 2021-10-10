@@ -17,8 +17,8 @@ on:
   push:
     branches:
       - master
-      - rec-*
-      - dev-*
+      - rec*
+      - dev*
   pull_request:
     branches:
       - master
@@ -48,3 +48,10 @@ jobs:
     - name: Configure and Run Application
       run: |
         sms --version
+        sms config --add Mercédès +13191234567
+        sms config --add Haydée +13197654321
+        sms config --home Haydée
+        sms config --list
+        sms send --receiver Haydée
+        sms send --msg "Hello, World!" --receiver Mercédès --debug
+        sms send --late --debug
