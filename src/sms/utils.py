@@ -60,7 +60,7 @@ def write_json_file(filename: Union[str, Path], params: dict) -> None:
     """
     config = read_json_file(filename)
     with open(get_resource_path(filename), mode='w', encoding='utf-8') as file_handler:
-        json.dump({**config, **params}, file_handler)
+        json.dump({**config, **params}, file_handler, indent=4)
         file_handler.write('\n')
 
 def reset_file(filename: Union[str, Path]) -> None:
@@ -74,14 +74,8 @@ def print_dict(title_left: str, title_right: str, table: dict) -> None:
     """
     Print a flat dictionary as table with two column titles.
     """
-    table = {str(key): str(value) for key, value in table.items()}
-    invert = lambda x: -x + (1 + len(max(chain(table.keys(), [title_left]), key=len)) // 8)
-    tabs = lambda string: invert(len(string) // 8) * '\t'
-    print('\n' + BRIGHT + GREEN + title_left + tabs(title_left) + title_right + RESET_ALL)
-    print((len(title_left) * '-') + tabs(title_left) + (len(title_right) * '-'))
-    for key, value in table.items():
-        print(key + tabs(key) + value)
-    print()
+    from pprint import pprint
+    pprint(table, indent=4)
 
 def print_on_success(message: str, verbose: bool=True) -> None:
     """
