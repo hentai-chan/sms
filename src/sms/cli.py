@@ -123,7 +123,7 @@ def cli():
             utils.reset_file(config_file)
             return
         if args.list:
-            utils.print_dict('Name', 'Value', config_data)
+            utils.print_dict(config_data)
             return
 
     if args.command == 'send':
