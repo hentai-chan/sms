@@ -46,7 +46,7 @@ def cli():
     send_parser.add_argument('--msg', type=str, nargs='?', help="the message to send")
     send_parser.add_argument('--late', action='store_true', help="selects a random excuse to send home")
     send_parser.add_argument('--receiver', type=str, nargs=1, help="name of contact, or a cell phone number")
-    send_parser.add_argument('--debug', default=False, action='store_true', help="don't send a message and debug this application")
+    send_parser.add_argument('--dry-run', default=False, action='store_true', help="don't send a message and debug this application")
 
     args = parser.parse_args()
     config_data = utils.read_json_file(CONFIGFILE)
@@ -143,13 +143,13 @@ def cli():
                 raise ValueError("Expected receiver, got %s" % args.receiver)
 
             if args.msg:
-                core.send_sms(sid, token, sender, receiver, args.msg, args.debug)
+                core.send_sms(sid, token, sender, receiver, args.msg, args.dry_run)
                 return
 
             if args.late:
                 receiver = search_contact(config_data['HomeContact'])[0]
                 excuse = random.choice(config_data['Excuses'])
-                core.send_sms(sid, token, sender, receiver, excuse, args.debug)
+                core.send_sms(sid, token, sender, receiver, excuse, args.dry_run)
                 return
 
         except ValueError as error:

@@ -56,6 +56,6 @@ jobs:
         sms config --home haydee
         sms config --list
         sms send --receiver Haydee
-        sms send --msg "Hello, World!" --receiver mercedes --debug
-        sms send --late --debug
+        sms send --msg "Hello, World!" --receiver mercedes --dry-run
+        sms send --late --dry-run
         sms log --list

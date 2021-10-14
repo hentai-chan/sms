@@ -53,7 +53,43 @@ pip install -e .
 <details>
 <summary>Customize Application Settings</summary>
 
-TODO
+To send a SMS over `twilio` you need to set these three values in the configuration file:
+
+```cli
+sms config --token <auth_token>
+sms config --sid <account_sid>
+sms config --phone <twilio_number>
+```
+
+Before you register a new `twilio` phone number, make sure its able to send a SMS to
+other cell phones. If you didn't sign up for a subscription, you will only be able to
+send a SMS to your own cell phone that you registered with this website. In general,
+cell phone numbers that you want to send a message to need to contain the country code.
+
+Optional: Define an array of excuses that are to be sent (at random) when you use
+the `--late` option.
+
+```cli
+sms config --excuses <excuse1,excuse2,...>
+```
+
+Add a new contact to your address book:
+
+```cli
+sms config --add <name> <phone>
+```
+
+Read the configuration file:
+
+```cli
+sms config --list
+```
+
+Get help:
+
+```cli
+sms --help
+```
 
 </details>
 
@@ -62,7 +98,31 @@ TODO
 <details>
 <summary>Command Line Usage</summary>
 
-TODO
+Send a message. Either pass a contact `name` from your address book, or pass a
+phone number that you want to send a message to:
+
+```cli
+sms send --msg <msg> --receiver <phone>
+```
+
+You can use the dry run option to preview the command invocation:
+
+```cli
+sms send --msg "Hello, World!" --receiver haydee --dry-run
+```
+
+```cli
+sms send --late
+```
+
+Note: You need to configure a home contact (e.g. your significant other) with
+
+```cli
+sms config --add <name> <phone>
+sms config --home <name>
+```
+
+first for this option to work.
 
 </details>
 
