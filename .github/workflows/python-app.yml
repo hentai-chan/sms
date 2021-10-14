@@ -17,8 +17,8 @@ on:
   push:
     branches:
       - master
-      - rec-*
-      - dev-*
+      - rec*
+      - dev*
   pull_request:
     branches:
       - master
@@ -32,7 +32,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        python-version: [ 3.8, 3.9, 3.10 ]
+        python-version: [ 3.8, 3.9, '3.10' ]
 
     steps:
     - uses: actions/checkout@v2
@@ -48,3 +48,14 @@ jobs:
     - name: Configure and Run Application
       run: |
         sms --version
+        sms config --sid 123456
+        sms config --token 654321
+        sms config --phone +13193141592
+        sms config --add Mercedes +13191234567
+        sms config --add Haydee +13197654321
+        sms config --home haydee
+        sms config --list
+        sms send --receiver Haydee
+        sms send --msg "Hello, World!" --receiver mercedes --dry-run
+        sms send --late --dry-run
+        sms log --list

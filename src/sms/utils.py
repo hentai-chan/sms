@@ -13,7 +13,7 @@ from typing import Dict, Union
 
 from . import config
 from .__init__ import package_name
-from .config import BRIGHT, CYAN, DIM, GREEN, NORMAL, RED, RESET_ALL, YELLOW
+from .config import BLUE, BRIGHT, CYAN, DIM, GREEN, MAGENTA, NORMAL, RED, RESET_ALL, YELLOW
 
 #region logging and resource access
 
@@ -60,7 +60,7 @@ def write_json_file(filename: Union[str, Path], params: dict) -> None:
     """
     config = read_json_file(filename)
     with open(get_resource_path(filename), mode='w', encoding='utf-8') as file_handler:
-        json.dump({**config, **params}, file_handler)
+        json.dump({**config, **params}, file_handler, indent=4)
         file_handler.write('\n')
 
 def reset_file(filename: Union[str, Path]) -> None:
@@ -70,18 +70,52 @@ def reset_file(filename: Union[str, Path]) -> None:
 
 #region development utilities
 
-def print_dict(title_left: str, title_right: str, table: dict) -> None:
+def add_col(value: str, color: str) -> str:
+    return BRIGHT + color + str(value) + RESET_ALL
+
+def det_col(value: str) -> str:
+    return add_col(value, {
+        'int': CYAN,
+        'float': CYAN,
+        'bool': MAGENTA,
+        'str': GREEN,
+        'bytes': YELLOW
+    }.get(value.__class__.__name__, GREEN))
+
+def print_dict(data: dict, level: int=0, start: bool=True, end: bool=False) -> None:
     """
-    Print a flat dictionary as table with two column titles.
+    Print a pretty nested dictionary in color. This is some of the worst code I
+    have ever written. There must be a better way to implement this.
     """
-    table = {str(key): str(value) for key, value in table.items()}
-    invert = lambda x: -x + (1 + len(max(chain(table.keys(), [title_left]), key=len)) // 8)
-    tabs = lambda string: invert(len(string) // 8) * '\t'
-    print('\n' + BRIGHT + GREEN + title_left + tabs(title_left) + title_right + RESET_ALL)
-    print((len(title_left) * '-') + tabs(title_left) + (len(title_right) * '-'))
-    for key, value in table.items():
-        print(key + tabs(key) + value)
-    print()
+    indent = lambda i: '    ' * i
+    last_item = lambda item: item == list(data.values())[-1]
+
+    print(indent(level) + '{')
+
+    start = False
+
+    for key, value in data.items():
+        print(indent(level + 1) + add_col(key, BLUE) + ': ', end='')
+
+        if isinstance(value, list) and len(value) > 0 and isinstance(value[0], dict):
+            print('[')
+            for _ in value:
+                print_dict(_, level + 2, start, end=(_ == value[-1]))
+                start = True
+            print(indent(level + 1) + ']' + ('' if last_item(value) else ','))
+        elif isinstance(value, list) or isinstance(value, tuple):
+            delim = "()" if isinstance(value, tuple) else "[]"
+            if len(value):
+                print(delim[0] + '\n' + indent(level + 2), end='')
+                print(('\n' + indent(level + 2)).join([det_col(_) + ('' if _ == value[-1] else ',') for _ in value]), end='')
+                print('\n' + indent(level + 1) + delim[1] + ('' if last_item(value) else ','))
+            else:
+                print(delim + '\n' + '}')
+        else:
+            print(det_col(value) + ('\n' + indent(level) + ('}' if start or end else '},') if last_item(value) else ','))
+
+    if start and isinstance(list(data.values())[-1], list):
+        print('}')
 
 def print_on_success(message: str, verbose: bool=True) -> None:
     """
