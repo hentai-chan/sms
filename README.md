@@ -8,7 +8,7 @@
 
 <p align="center">
     <a href="https://github.com/hentai-chan/sms" title="Release Version">
-        <img src="https://img.shields.io/badge/Release-0.0.1%20-blue">
+        <img src="https://img.shields.io/badge/Release-0.0.2%20-blue">
     </a>
     <a href="https://github.com/hentai-chan/sms/actions/workflows/python-app.yml" title="Unit Tests">
         <img src="https://github.com/hentai-chan/sms/actions/workflows/python-app.yml/badge.svg">
